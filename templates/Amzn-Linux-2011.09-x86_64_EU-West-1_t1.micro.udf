@@ -1,8 +1,29 @@
 #!/bin/sh
+# Description: Sample cloud_init file
+# Author: Patrice LACHANCE, itisopen.net
+##############################################################################
 
-cat <<EOF > /tmp/cloud_init.out
+exec 1>/tmp/cloud_init.out 2>&1
+cat <<EOF
 ============================
-My name is ${0}
-I was input via user data
+Script retrieved thru 'user data'
+Script location: ${0}
+Executed as:     `whoami`
+Exec date:       `date`
 ============================
 EOF
+
+echo "Creating user 'cloudadm'"
+useradd cloudadm
+
+echo "Creating user 'oneadmin:cloudadm'"
+useradd -g cloudadm oneadmin
+cp -a ~ec2-user/.ssh ~oneadmin
+chown -Rh oneadmin:cloudadm ~oneadmin/.ssh
+
+echo "Creating group 'cloudusr'"
+groupadd cloudusr
+
+echo "Creating user 'itisopen:cloudusr'"
+useradd -g cloudusr itisopen
+
