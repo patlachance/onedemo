@@ -1,0 +1,11 @@
+CONTEXT=[
+  TAGS="Tenant='Demo 1',Name='$NAME',Template_ID='$TEMPLATE_ID'" ]
+EC2=[
+  AMI="ami-df1613ab",
+  INSTANCETYPE="m1.small",
+  KEYPAIR="logica_hes",
+  SECURITY_GROUP="logica_hes",
+  TAGS="CONTEXT",
+  USERDATAFILE="/srv/cloud/onedemo/templates/ITisOpen.net-Ubuntu-10.04-LTS-x86_64_EU-West-1_m1.small-CloudFoundry.udf" ]
+NAME="ITisOpen.net-Ubuntu-10.04-LTS-x86_64_EU-West-1_m1.small-CloudFoundry"
+REQUIREMENTS="CLUSTER_ID = 100"

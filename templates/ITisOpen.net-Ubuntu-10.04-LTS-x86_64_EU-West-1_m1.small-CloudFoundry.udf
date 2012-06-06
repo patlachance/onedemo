@@ -1,0 +1,28 @@
+#!/bin/bash
+# Description: VCAP configuration file - single devbox
+# Author: Patrice LACHANCE, itisopen.net
+##############################################################################
+
+exec 1>/tmp/cloud_init.out 2>&1
+cat <<EOF
+============================
+Script retrieved thru 'user data'
+Script location: ${0}
+Executed as:     `whoami`
+Exec date:       `date`
+============================
+EOF
+
+VCAPUSER="ubuntu"
+URL="api.vcap.itisopen.net"
+IP=$(wget -qO - http://169.254.169.254/latest/meta-data/local-ipv4)
+
+echo "Creating /itocloud directory"
+mkdir -p /itocloud && cd /itocloud
+
+echo "Cloning ITisOpen.net's vcap tools"
+git clone https://github.com/patlachance/vcap.git
+
+echo "Configuring with URL=$URL and IP=$IP"
+su -l -c "/itocloud/vcap/bin/vcap_fix_cfg.sh $URL $IP" $VCAPUSER
+
