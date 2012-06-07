@@ -26,3 +26,14 @@ git clone https://github.com/patlachance/vcap.git
 echo "Configuring with URL=$URL and IP=$IP"
 su -l -c "/itocloud/vcap/bin/vcap_fix_cfg.sh $URL $IP" $VCAPUSER
 
+cat <<EOT > /tmp/vcap_start.sh
+#!/bin/bash
+. $VCAPUSER/.cloudfoundry_deployment_profile
+$VCAPUSER/cloudfoundry/vcap/dev_setup/bin/vcap_dev start
+vmc target $IP
+vmc add-user --email patlachance@gmail.com --passwd ITisOpenDemo
+vmc login --email patlachance@gmail.com --passwd ITisOpenDemo
+vmc push hello --path /itocloud/vcap/examples/sinatra/hello --url hello.vcap.itisopen.net --instances 1 --mem 128 
+EOT
+echo "Starting VCAP"
+su -l -c 
