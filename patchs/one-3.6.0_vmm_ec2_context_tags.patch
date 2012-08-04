@@ -1,0 +1,11 @@
+--- lib/mads/one_vmm_ec2.rb	2012-08-04 16:17:04.553838911 +0000
++++ b/lib/mads/one_vmm_ec2.rb	2012-08-04 16:16:50.154956299 +0000
+@@ -141,7 +141,7 @@
+         :tags => {
+             :cmd => "#{EC2_LOCATION}/bin/ec2-create-tags",
+             :args => {
+-                "TAGS" => {
++                "../CONTEXT/TAGS" => {
+                     :opt  => '-t',
+                     :proc => lambda {|str| str.split(',').join(' -t ')}
+                 }
