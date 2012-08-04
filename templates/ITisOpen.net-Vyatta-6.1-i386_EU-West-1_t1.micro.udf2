@@ -1,0 +1,95 @@
+interfaces {
+    ethernet eth0 {
+        address dhcp
+        duplex auto
+        smp_affinity auto
+        speed auto
+    }
+    loopback lo {
+    }
+}
+service {
+    https
+    nat {
+        rule 10 {
+            outbound-interface eth0
+            source {
+                address 10.0.1.0/24
+            }
+            type masquerade
+        }
+        rule 20 {
+            destination {
+                port 3333
+            }
+            inbound-interface eth0
+            inside-address {
+                address 10.0.1.20
+                port 22
+            }
+            protocol tcp
+            type destination
+        }
+    }
+    ssh {
+        allow-root
+        disable-password-authentication
+        port 22
+        protocol-version v2
+    }
+}
+system {
+    host-name R1
+    login {
+        user vyatta {
+            authentication {
+                encrypted-password $1$4XHPj9eT$G3ww9B/pYDLSXC8YVvazP0
+                public-keys logica_hes {
+                    key AAAAB3NzaC1yc2EAAAABIwAAAQEA5ClMbGlAO/Z9UZFJJ0v8xIu1/jT7TMUnp7c3QkIaabwSXlpa6/651cTMDnEB1vYdyNjZkTXEERImYuxhP8HJI0tG1BNTIcyK5xQg+lRY4ZkbUYt+l/za1tnbFgP7ej8gAXj2IeZ8ZWJjErUB93BJiWENq3s1Cy6VxNjjguMdEFShb1j6+t0Wvw4mb55EHrz99SeMRaYLPIlUzHL+xg5wRVPc2LA8QtYO9fxrmXaDZhqN2+e+BPRAaCNkJ7Bjx6bTD9Kiy0LjMH+Itla2QczAPs70lQub1ne8DxKf4hKM54JxNZhyZLmySANv8p4h12i52KfzM5dClc1R/nkChylS3Q==
+                    type ssh-rsa
+                }
+            }
+            level admin
+        }
+    }
+    ntp-server 0.vyatta.pool.ntp.org
+    package {
+        auto-sync 1
+        repository community {
+            components main
+            distribution stable
+            password ""
+            url http://packages.vyatta.com/vyatta
+            username ""
+        }
+    }
+    syslog {
+        global {
+            facility all {
+                level notice
+            }
+            facility protocols {
+                level debug
+            }
+        }
+    }
+    time-zone GMT
+}
+remote-access {
+	authentication {
+		local-users {
+			username test {
+			password test
+			}
+		}
+		mode local
+	}
+	client-ip-pool {
+		start 10.0.1.100
+		stop 10.0.1.150
+	}
+	outside-address 10.0.0.10
+}
+
+/* Warning: Do not remove the following line. */
+/* === vyatta-config-version: "dhcp-server@4:webproxy@1:wanloadbalance@2:dhcp-relay@1:nat@3:webgui@1:ipsec@2:conntrack-sync@1:vrrp@1:quagga@2:cluster@1:qos@1:system@3:firewall@3" === *//
