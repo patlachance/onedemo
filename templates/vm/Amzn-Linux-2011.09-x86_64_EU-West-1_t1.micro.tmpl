@@ -1,11 +1,13 @@
 CONTEXT=[
-  TAGS="Tenant='Demo 1',Name='$NAME',Template_ID='$TEMPLATE_ID'" ]
+  TAGS="Tenant='Demo 1',Name='$NAME',User='$USER[NAME]',Template_ID='$TEMPLATE_ID'" ]
 EC2=[
   AMI="ami-953b06e1",
   INSTANCETYPE="t1.micro",
   KEYPAIR="logica_hes",
   SECURITY_GROUP="logica_hes",
   TAGS="CONTEXT",
-  USERDATAFILE="/srv/cloud/onedemo/templates/Amzn-Linux-2011.09-x86_64_EU-West-1_t1.micro.udf" ]
+  USERDATAFILE="/srv/cloud/onedemo/templates/vm/Amzn-Linux-2011.09-x86_64_EU-West-1_t1.micro.udf" ]
 NAME="Amzn-Linux-2011.09-x86_64_EU-West-1_t1.micro"
 REQUIREMENTS="CLUSTER_ID = 100"
+CPU=0.1
+MEMORY=1G
